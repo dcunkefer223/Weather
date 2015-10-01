@@ -1,0 +1,18 @@
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>SQ1 Weather App</h1>
+</header>
+<div class="container panel panel-default" >
+    <h1>SQ1 Weather App</h1>
+      <!-- <form method = "POST"> -->
+      <div class="container panel panel-default" >
+        <input type="text" class="city-input" placeholder="City" ng-model="city" >
+        <button ng-click = "grabDegree(city)">Kelvin</button>
+        <div ng-repeat="city in weatherCities">
+          <h2><span>{{city.city}} : {{city.temp}}</span></h2>
+        </div>
+         <!-- <h2><span class = "weather">{{weather}}</span></h2> -->
+      </div>
+    </br>
+</div>
