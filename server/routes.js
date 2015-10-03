@@ -6,9 +6,7 @@
 
 import errors from './components/errors';
 import path from 'path';
-var request = require("request");
-var weatherURI = "http://api.openweathermap.org/data/2.5/weather?q=";
-var api = "APPID=7c99bd12f8e57f1557fe0472e9ea0a64";
+var Weather = require('./requestHandlers/weatherHandler.js');
 
 module.exports = function(app) {
 
@@ -26,35 +24,12 @@ module.exports = function(app) {
 
   app.get('/weatherCity/:city', function (req, res){
     console.log("city",req.params.city)
-    findWeatherByCity(req.params.city, function(humidity){
+    Weather.findWeatherByCity(req.params.city, function(humidity){
       res.json(humidity);
     });
-    console.log('weatherCity', weatherURI);
+    //console.log('weatherCity', weatherURI);
   });
-//});
 
-  // app.get('/weatherCity', function (req, res){
-  // var city = req.query.city;
-  // var url = weatherURI//+53b61f0bc98bfe8e551a7d93fd4ad047
-  // request(url, function (err,response, body){
-  //   if (err) console.log(err + " inside weatherCity");
-  //   else{
-  //     res.set('Content-Type', 'application/json')
-  //     res.status(200).send(body)
-  //   }
-  // })
-  // });
-
-  function findWeatherByCity(city, cb){
-    var query = weatherURI+city+api;
-    console.log("inside findWEather by City",city);
-    request(query, function (error, response, body){
-      var body = JSON.parse(body);
-      var temp = body.main.temp;
-      console.log(temp)
-        cb(temp);
-    })
-  }
 
 
 };
