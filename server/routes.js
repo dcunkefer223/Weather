@@ -8,6 +8,7 @@ import errors from './components/errors';
 import path from 'path';
 var request = require("request");
 var weatherURI = "http://api.openweathermap.org/data/2.5/weather?q=";
+var api = "APPID=7c99bd12f8e57f1557fe0472e9ea0a64";
 
 module.exports = function(app) {
 
@@ -45,7 +46,7 @@ module.exports = function(app) {
   // });
 
   function findWeatherByCity(city, cb){
-    var query = weatherURI+city;
+    var query = weatherURI+city+api;
     console.log("inside findWEather by City",city);
     request(query, function (error, response, body){
       var body = JSON.parse(body);
