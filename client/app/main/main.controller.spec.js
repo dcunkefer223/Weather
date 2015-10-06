@@ -7,23 +7,23 @@ describe('Controller: MainController', function() {
   beforeEach(module('socketMock'));
 
   var scope;
-  var MainController;
+  var MainCtrl;
   var $httpBackend;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function(_$httpBackend_, $controller, $rootScope) {
     $httpBackend = _$httpBackend_;
-    $httpBackend.expectGET('/api/things')
-      .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+    $httpBackend.expectGET('/weatherCity')
+      .respond(['Dallas', 'Austin', 'San Diego', 'Houston']);
 
     scope = $rootScope.$new();
-    MainController = $controller('MainController', {
+    MainCtrl = $controller('MainController', {
       $scope: scope
     });
   }));
 
   it('should attach a list of things to the controller', function() {
-    $httpBackend.flush();
-    expect(MainController.awesomeThings.length).toBe(4);
+    //$httpBackend.flush();
+    expect(scope.weatherCities.length).toBe(3);
   });
 });

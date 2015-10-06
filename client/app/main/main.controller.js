@@ -17,10 +17,17 @@ angular.module('sq1WeatherApp')
         })
     }
   })
-   // .filter('fahren', [
-   //    function() {
-   //      
-    // ])   
+   
+   .filter('fahren', function() {
+        return function (number){
+          return number * 9/5 -459.67
+        }
+    })
+    .filter('celcius', function(){
+      return function (number){
+        return number-273.15
+      }
+    })   
 
   .factory('degree', function($http){
     var grabDegree = function(city){
