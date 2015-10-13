@@ -20,6 +20,9 @@ angular.module('sq1WeatherApp')
         console.log(index)
         $scope.weatherCities.splice(index, 1);
       }
+      $scope.testMe = function (){
+        Degree.testDegree();
+      }
    })
 
    .filter('fahren', function() {

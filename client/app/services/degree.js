@@ -14,8 +14,11 @@ angular.module('sq1WeatherApp')
           return resp.data;
         })
       };
-      
+      var testDegree = function (){
+        return
+      }
     return {
-      grabDegree: grabDegree
+      grabDegree: grabDegree,
+      testDegree: testDegree
       }
  });

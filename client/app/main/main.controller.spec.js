@@ -13,21 +13,21 @@ describe('Controller: MainController', function() {
   var city;
   var q;
   var deferred;
-  var Degree;
+  var back;
   var apiService;
   
   beforeEach(function(){
     //city = 822;
-    apiService = {
-            // grabDegree: function () {
-            //     deferred = q.defer();
-            //     return deferred.promise;
-            // },
+    back = {
+            testDegree: function () {
+                //deferred = q.defer();
+                return //deferred.promise;
+            }
             
-              tDegree: function(){
-                //var h = 'hello'
-                return 822
-              }
+            //   tDegree: function(){
+            //     //var h = 'hello'
+            //     return 822
+            //   }
             
     };
   });
@@ -37,17 +37,23 @@ describe('Controller: MainController', function() {
     scope = $rootScope.$new();
     MainCtrl = $controller('MainController', {
       $scope: scope,
-      Degree: apiService
+      Degree: back
     });
   }));
 
   it('should attach a list of things to the controller', function() {
-  //   //$httpBackend.flush();
-    expect(scope.weatherCities.length).toBe(0);
-    expect(scope.fudge).toBe(823);
-  // });
+    scope.weatherCities.push("Dallas", "Austin")
+    expect(scope.weatherCities.length).toBe(2);
+  });
 
-
+  it('should make a Request ', function() {
+    //spyOn(back, 'testDegree').andCallThrough();
+    scope.testMe();
+    // deferred.resolve();
+    // scope.$root.$digest();
+    expect(apiService.grabDegree).toHaveBeenCalled();
+    
+  });
 
 
 //   it('should request getDegrees during grabDegree', function (){
