@@ -1,10 +1,18 @@
 'use strict';
 
 angular.module('sq1WeatherApp')
-  .controller('MainController', function ($scope, Degree) {
-    angular.extend($scope, Degree)
+  .controller('MainController', function ($scope, $http, Degree) {
+    //angular.extend($scope)//, Degree)
     //$scope.grabWeather = degree.grabDegree();
       $scope.weatherCities = [];
+      $scope.getLoco = function (){
+        $http({method: 'GET',
+          url: 'http://ipinfo.io'}).then(function (res){
+          $scope.local = res.data.city
+        }).catch(function(err){
+          console.log(err);
+        })
+      }
       $scope.grabDegree = function(city){
         console.log("this is city#1", city)
         Degree.grabDegree(city)
@@ -20,7 +28,10 @@ angular.module('sq1WeatherApp')
         console.log(index)
         $scope.weatherCities.splice(index, 1);
       }
-   })
+    $scope.getLoco();
+   setTimeout(function(){$scope.grabDegree($scope.local)},1000);
+    })
+
 
    .filter('fahren', function() {
         return function (number){
