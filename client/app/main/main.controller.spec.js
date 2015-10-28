@@ -43,7 +43,7 @@ describe('Controller: MainController', function() {
 
 
   it('should attach a list of things to the controller', function() {
-    expect(scope.weatherCities.length).toBe(0);
+    expect(scope.weatherCities.length).toBe(3);
   });
 
 
@@ -54,29 +54,14 @@ describe('Controller: MainController', function() {
     scope.$root.$digest();
     expect(apiService.grabDegree).toHaveBeenCalled();
   });
-  
+
   it('should populate the scope.weather when scope.degree() is called', function() {
-            scope.grabDegree(city);
-            deferred.resolve();
-            scope.$root.$digest();
-            expect(scope.weather).not.toBe([]);
-        });
+     scope.grabDegree(city);
+     deferred.resolve();
+     scope.$root.$digest();
+     console.log("scope . weather", apiService.data);
+     expect(scope.weather).not.toBe([]);
+   });
 });
 
 
-
-
-
-
-
-
-  // Initialize the controller and a mock scope
-  // beforeEach(inject(function($controller, $rootScope, $q) {
-  //   q=$q;
-  //   scope = $rootScope.$new();
-  //   MainCtrl = $controller('MainController', {
-  //     $scope: scope,
-  //     Degree: apiService
-  //   });
-  // }));
-//

@@ -10,26 +10,6 @@
     </style>
 </head>
 <body>
-
-
-<label class = "text-inline">
-    <input type="text" class="form-control" name="email">
-</label>
-<label class = "radio-inline">
-    <input type = "radio" name ="hours" value "24 Hours" checked>Accepted
-</label>
-<label class = "radio-inline">
-    <input type = "radio" name ="hours" value "24 Hours" checked>24 Hours
-</label>
-<label class = "submit-inline">
-    <input type = "submit" value = "submit">
-</label>
-
-
-
-
-
-
 <div class="container">
 
 <div class="col-sm-6 col-sm-offset-3">
@@ -37,7 +17,7 @@
     <h1><span class="fa fa-sign-in"></span> Signup</h1>
 
     <!-- show any messages that come back with authentication -->
-    <% if (message.length > 0)  %>
+    <% if (message.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
 

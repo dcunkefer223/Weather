@@ -24,19 +24,25 @@ module.exports = function(app, passport) {
     console.log("city",req.params.city)
     Weather.findWeatherByCity(req.params.city, function(humidity){
       res.json(humidity);
-    });
+      });
+  });
+  
+  app.get('/test', function (req, res){
+    res.redirect('../app/login/test.html');
   });
 
-    app.get('login', function (req, res){
+
+    app.get('/login', function (req, res){
       res.render('login.ejs', {message: req.flash('loginMessage')});
     });
 
     app.get('/signup', function(req, res) {
-      res.render('../../../../app/login/signup.ejs', { message: req.flash('signupMessage') });
+      res.redirect('../app/login/signupNew.html');
+      //res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
     
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
+        successRedirect : '../app/login/signupNew.html',//'/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));

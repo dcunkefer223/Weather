@@ -14,7 +14,16 @@ angular.module('sq1WeatherApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainController',
         controllerAs: 'main'
+      }).when('/test', {
+        templateUrl: 'app/login/test.html',
+        controller: 'LoginController',
+        controllerAs: 'login'
       })
+      // .when('/signup', {
+      //   templateUrl: 'app/login/signupNew.html',
+      //   controller: 'LoginController',
+      //   controllerAs: 'login'
+      // })
       .otherwise({
         redirectTo: '/'
       });

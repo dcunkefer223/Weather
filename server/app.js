@@ -5,6 +5,7 @@
 'use strict';
 
 var express = require('express');
+var app = express();
 var mongoose = require('mongoose');
 var config = require('./config/environment');
 var http = require('http');
@@ -23,11 +24,11 @@ mongoose.connection.on('error', function(err) {
   process.exit(-1);
 });
 
+require('./config/passport')(passport); // pass passport for configuration
 //Populate databases with sample data
 //if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
-var app = express();
 var server = http.createServer(app);
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
@@ -38,11 +39,17 @@ require('./config/express')(app);
 require('./routes')(app, passport);
 //var request = require("request");
 
-require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
+
+//from csrf website --- uncomment 45
+// app.use(express.cookieParser('your'));
+// app.use(express.cookieSession());
+// app.use(express.csrf());
+// end of csrf
+
 app.use(bodyParser()); // get information from html forms
 
 app.set('view engine', 'ejs'); // set up ejs for templating
