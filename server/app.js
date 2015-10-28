@@ -4,11 +4,18 @@
 
 'use strict';
 
-import express from 'express';
-import mongoose from 'mongoose';
-import config from './config/environment';
-import http from 'http';
-
+var express = require('express');
+var app = express();
+var mongoose = require('mongoose');
+var config = require('./config/environment');
+var http = require('http');
+var flash = require('connect-flash');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
+//var configDB = require('./config/database.js');
 
 //Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -17,11 +24,11 @@ mongoose.connection.on('error', function(err) {
   process.exit(-1);
 });
 
+require('./config/passport')(passport); // pass passport for configuration
 //Populate databases with sample data
 //if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
-var app = express();
 var server = http.createServer(app);
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
@@ -29,8 +36,29 @@ var socketio = require('socket.io')(server, {
 });
 require('./config/socketio')(socketio);
 require('./config/express')(app);
-require('./routes')(app);
+require('./routes')(app, passport);
 //var request = require("request");
+
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+
+//from csrf website --- uncomment 45
+// app.use(express.cookieParser('your'));
+// app.use(express.cookieSession());
+// app.use(express.csrf());
+// end of csrf
+
+app.use(bodyParser()); // get information from html forms
+
+app.set('view engine', 'ejs'); // set up ejs for templating
+
+// required for passport
+app.use(session({ secret: 'weatherApp' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 // Start server
 function startServer() {
   server.listen(config.port, config.ip, function() {
@@ -42,10 +70,4 @@ setImmediate(startServer);
 
 // Expose app
 exports = module.exports = app;
-
-
-
-
-
-
 

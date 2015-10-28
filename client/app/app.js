@@ -10,6 +10,20 @@ angular.module('sq1WeatherApp', [
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
+      .when('/', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainController',
+        controllerAs: 'main'
+      }).when('/test', {
+        templateUrl: 'app/login/test.html',
+        controller: 'LoginController',
+        controllerAs: 'login'
+      })
+      // .when('/signup', {
+      //   templateUrl: 'app/login/signupNew.html',
+      //   controller: 'LoginController',
+      //   controllerAs: 'login'
+      // })
       .otherwise({
         redirectTo: '/'
       });

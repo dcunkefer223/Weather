@@ -3,7 +3,6 @@
 describe('Controller: MainController', function() {
 
   // load the controller's module
-  beforeEach(module('sq1WeatherApp'));
   //beforeEach(module('socketMock'));
 
   var scope;
@@ -15,36 +14,33 @@ describe('Controller: MainController', function() {
   var deferred;
   var back;
   var apiService;
-  
-  beforeEach(function(){
-    //city = 822;
-    back = {
-            testDegree: function () {
-                //deferred = q.defer();
-                return //deferred.promise;
-            }
-            
-            //   tDegree: function(){
-            //     //var h = 'hello'
-            //     return 822
-            //   }
-            
-    };
-  });
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function($controller, $rootScope, $q) {
-    q=$q;
-    scope = $rootScope.$new();
-    MainCtrl = $controller('MainController', {
-      $scope: scope,
-      Degree: back
-    });
-  }));
+  var city = 'Dallas'
 
-  it('should attach a list of things to the controller', function() {
-    scope.weatherCities.push("Dallas", "Austin")
-    expect(scope.weatherCities.length).toBe(2);
+  beforeEach(function() {
+      module('sq1WeatherApp')
+        apiService = {
+            data: [{
+                city: "Dallas",
+                temp: 286
+                }],
+
+            grabDegree: function() {
+                deferred = q.defer();
+                return deferred.promise;
+            }
+        };
   });
+
+  beforeEach(inject(function($controller, $rootScope, $q) {
+
+      scope = $rootScope.$new();
+      // apiService = _apiService_;
+      q= $q;
+      MainCtrl = $controller('MainController', {
+        $scope: scope,
+        Degree: apiService
+        });
+    }));
 
   it('should make a Request ', function() {
     //spyOn(back, 'testDegree').andCallThrough();
@@ -55,19 +51,21 @@ describe('Controller: MainController', function() {
     
   });
 
+  it('should request getDegrees during grabDegree', function (){
+    spyOn(apiService, 'grabDegree').and.callThrough();
+    scope.grabDegree(city);
+    deferred.resolve();
+    scope.$root.$digest();
+    expect(apiService.grabDegree).toHaveBeenCalled();
+  });
 
-//   it('should request getDegrees during grabDegree', function (){
-//     spyOn(apiService, 'tDegree').andCallThrough();
-//     scope.testdegree();
-//     //deferred.resolve();
-//     //scope.$root.$digest();
-//     expect(apiService.tDegree).toHaveBeenCalled();
-//   });
+  it('should populate the scope.weather when scope.degree() is called', function() {
+     scope.grabDegree(city);
+     deferred.resolve();
+     scope.$root.$digest();
+     console.log("scope . weather", apiService.data);
+     expect(scope.weather).not.toBe([]);
+   });
 });
-
-
-
-
-
 
 
